@@ -6,12 +6,10 @@ ReCoKT lets schools train knowledge-tracing models together while keeping track 
 
 This repository contains the research implementation of ReCoKT, three compatible knowledge-tracing backbones, and the membership-attack scoring code used in our privacy evaluation.
 
-> 🚧 **Release candidate.** The portable code has been tested on synthetic data, but it has not yet been fully checked against the paper's real-data outputs. See [Reproduction status](#-reproduction-status) before using it to reproduce the results.
-
 ## 📚 What's inside
 
 - **ReCoKT:** component training, prediction, withdrawal routing, and managed serving.
-- **Backbones:** DKT, SAKT, and a causal, skill-only BCE adaptation of KeenKT.
+- **Backbones:** DKT, SAKT, and KeenKT.
 - **Privacy attacks:** school-level Gaussian scoring and DKT student-level LiRA/RULI scoring.
 - **Tests:** synthetic training and prediction checks, plus withdrawal and attack-scoring tests.
 
@@ -19,17 +17,9 @@ The code runs federated training as a **single-machine, multi-process simulation
 
 ## 🧩 How ReCoKT works
 
-Each school trains a local component and cooperates with its two neighbors to train two pairwise components. The three components contribute **0.4, 0.3, and 0.3** to that school's prediction. When a neighboring school withdraws, the affected pair is removed and its 0.3 weight returns to the remaining school's local component.
+Each school trains a local component and cooperates with its two neighbors to train two pairwise components.
 
 Each component uses a rank-16 backbone adaptation and a correction head. Training uses six backbone rounds followed by six head rounds. Unless a sequential-withdrawal experiment is explicitly set up, each request starts from the same source bank.
-
-The backbones have different implementations:
-
-- **DKT** shares a frozen initial base across components and uses continuous factor-based prediction.
-- **SAKT** uses a 50-interaction rolling history and component-specific initialized bases.
-- **KeenKT** uses a causal, skill-only BCE adaptation with a rolling window and component-specific initialized bases. It is not the unmodified original KeenKT implementation.
-
-For DKT, the repository also includes a selective student-state policy that keeps states belonging to unaffected components. Its validation applies to DKT; the same behavior should not be assumed for the other backbones.
 
 ## 🚀 Getting started
 
@@ -53,6 +43,11 @@ The smoke test creates temporary synthetic data and trains a pairwise component 
 ## 🗂️ Prepare your data
 
 This repository does **not** include datasets, student records, prediction files, trained weights, or the paper's split and target registries. Obtain and prepare the inputs separately under their original terms. Do not use test data to select training settings.
+
+Download the datasets from ASSISTments:
+
+- [ASSIST2009 Non-Skill-Builder data](https://sites.google.com/site/assistmentsdata/home/2009-2010-assistment-data/non-skill-builder-data-2009-10)
+- [ASSIST2012–2013 school data](https://sites.google.com/site/assistmentsdata/datasets/2012-13-school-data-with-affect)
 
 To train a component bank, prepare:
 
@@ -143,4 +138,4 @@ The portable wrappers were assembled from the research implementation. Backbone 
 
 ## 📄 License
 
-The project's original code is provided under the [MIT License](LICENSE). The KeenKT implementation is adapted from [HubuKG/KeenKT](https://github.com/HubuKG/KeenKT), which is distributed under Apache-2.0; its license is included in [KEENKT_APACHE-2.0.txt](KEENKT_APACHE-2.0.txt). Our causal, skill-only BCE wrapper modifies the original behavior.
+The project's original code is provided under the [MIT License](LICENSE). The KeenKT implementation is adapted from [HubuKG/KeenKT](https://github.com/HubuKG/KeenKT), which is distributed under Apache-2.0; its license is included in [KEENKT_APACHE-2.0.txt](KEENKT_APACHE-2.0.txt). The ReCoKT wrapper modifies the original behavior.
