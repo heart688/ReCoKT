@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "recokt-research"
+version = "0.1.0rc0"
+description = "Research implementation of ReCoKT for federated knowledge tracing"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.4,<3", "numpy>=1.26,<3"]
+
+[project.scripts]
+recokt-bank = "recokt.bank:main"
+recokt-component = "recokt.train:main"
+recokt-export-serving = "recokt.serving.export:main"
+recokt-student-attack-score = "recokt.attacks.student:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

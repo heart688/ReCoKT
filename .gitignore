@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+data/
+checkpoints/
+outputs/
+*.pt
+*.pth
+*.ckpt
+*.jsonl
+*_private.json
+shadow[0-9][0-9]/
