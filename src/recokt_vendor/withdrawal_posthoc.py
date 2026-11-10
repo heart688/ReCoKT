@@ -1,8 +1,8 @@
 """Parameter-only cores for the school-withdrawal baseline runner.
 
-NoT here selects DKT's final affine head, an explicitly declared KT adaptation
-of the paper's selected-parameter negation. Retained-only recovery is required
-and belongs to the runner. FedEraser implements the paper's per-client Eq. (1),
+This module includes an output-layer negation utility and FedEraser calibration.
+The paper's NoT baseline is implemented by ``baseline_training.recover``.
+FedEraser implements the paper's per-client Eq. (1),
 not the aggregate-then-per-tensor variant in the publicly mirrored code.
 Neither function trains, evaluates, reads records, or accesses checkpoints.
 See docs/BASELINE_POSTHOC_SOURCES.md for provenance and remaining adaptations.
@@ -32,9 +32,11 @@ def negate_output_layer(model: nn.Module) -> nn.Module:
 
     The head must be an explicit ``nn.Linear`` (DKT's output layer). For a fixed
     hidden state h, (-W)h + (-b) = -(Wh + b); for binary KT, sigmoid(-z) =
-    1 - sigmoid(z). This is the perturbation phase only, not completed NoT.
+    1 - sigmoid(z). This standalone utility does not run the paper's NoT
+    baseline. For that baseline, ``baseline_training.recover`` negates the
+    first named parameter tensor and then trains on the remaining schools.
     Return the same model, preserving Parameter identities, requires_grad and
-    train/eval mode. The runner chooses recovery rounds and a fresh optimizer.
+    train/eval mode.
     """
     if not isinstance(model, nn.Module):
         raise TypeError("model must be a torch.nn.Module")

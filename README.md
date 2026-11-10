@@ -45,6 +45,10 @@ Download the datasets from ASSISTments and prepare them under their original ter
 - [ASSIST2009 Non-Skill-Builder data](https://sites.google.com/site/assistmentsdata/home/2009-2010-assistment-data/non-skill-builder-data-2009-10)
 - [ASSIST2012–2013 school data](https://sites.google.com/site/assistmentsdata/datasets/2012-13-school-data-with-affect)
 
+The paper's school rosters, withdrawal sequences, data split, and training
+schedules are listed in [configs/paper_protocol.json](configs/paper_protocol.json).
+Prepare the manifest, component plan, and target registry from the datasets.
+
 To train a component bank, prepare:
 
 1. **`manifest.json`** — skill count, ordered schools, each school's training-file path, and training counts (`n_windows` and `emitted_targets`).
@@ -75,7 +79,23 @@ recokt-bank evaluate --bank /path/to/new-bank/bank.json \
   --output /path/to/new-case-summary.json
 ```
 
-This checks target identity and coverage, and reports per-school AUC and student-balanced Brier.
+This checks target identity and coverage. It reports school-averaged AUC,
+student-balanced ACC and Brier, and RMSE computed from the case-level Brier.
+The per-school `accuracy` field remains target-weighted; the paper-aligned
+student-balanced value is `student_balanced_acc`.
+
+After evaluating the same five withdrawals for each of five seeds, summarize
+the 25 case outputs using:
+
+```bash
+recokt-paper-metrics --cases /path/to/case-results/*.json --output /path/to/summary.json
+```
+
+The summary first averages withdrawals within each seed, then reports the
+five-seed mean and sample standard deviation for AUC, ACC and RMSE. The command
+checks that all cases use one dataset, backbone and split, the same 20-school
+federation, the same bank within each seed, the same evaluation registry for
+each withdrawal, and a complete set of five withdrawals for every seed.
 
 For lower-level use, run `recokt-component --help` or use `recokt.predict` to load components, build routes, and make predictions.
 

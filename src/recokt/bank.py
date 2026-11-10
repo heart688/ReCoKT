@@ -4,9 +4,9 @@ from collections import defaultdict
 import json
 from pathlib import Path
 
-from recokt_vendor.metrics import binary_metrics
 from .train import file_sha, train_component
 from .predict import load_component, predict_component, route
+from .paper_metrics import case_metrics
 
 
 def read(path): return json.loads(Path(path).read_text())
@@ -101,23 +101,14 @@ def evaluate(args):
             if sid in observed or (str(t['school_id']),t['student_id'],t['segment_id'],t['event_index'],t['skill_id'],t['target']) != (school,tr['student_id'],tr['segment_id'],i,sk[i],answers[i]):
                 raise ValueError('target identity mismatch')
             p=sum(w*ps[i-1] for w,ps in probs);observed[sid]=True
-            byschool[school].append((t['student_id'],int(answers[i]),p))
+            byschool[school].append((str(t['student_id']),int(answers[i]),p))
     if set(observed)!=set(targets) or set(byschool)!=set(map(str,registry['schools'])):
         raise ValueError('target or school coverage mismatch')
-    per={}
-    for school,rows in byschool.items():
-        m=binary_metrics([y for _,y,_ in rows],[p for _,_,p in rows])
-        groups=defaultdict(list)
-        for student,y,p in rows: groups[student].append((p-y)**2)
-        m['student_balanced_brier']=sum(sum(v)/len(v) for v in groups.values())/len(groups)
-        per[school]=m
-    aucs=[v['auc'] for v in per.values()]
+    metrics=case_metrics(byschool)
     result={'dataset':bank['dataset'],'architecture':bank['architecture'],'seed':bank['seed'],
-            'withdrawn':args.withdrawn,'schools':len(per),'targets':len(observed),
+            'withdrawn':args.withdrawn,'split':registry['split'],'schools':len(metrics['per_school']),'targets':len(observed),
             'bank_sha256':file_sha(args.bank),'registry_sha256':file_sha(args.registry),
-            'auc':None if None in aucs else sum(aucs)/len(aucs),
-            'student_balanced_brier':sum(v['student_balanced_brier'] for v in per.values())/len(per),
-            'per_school':per}
+            **metrics}
     with args.output.open('x') as f: json.dump(result,f,indent=2,allow_nan=False);f.write('\n')
 
 

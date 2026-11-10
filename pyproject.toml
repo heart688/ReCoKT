@@ -11,6 +11,7 @@ dependencies = ["torch>=2.4,<3", "numpy>=1.26,<3"]
 
 [project.scripts]
 recokt-bank = "recokt.bank:main"
+recokt-paper-metrics = "recokt.paper_metrics:main"
 recokt-component = "recokt.train:main"
 recokt-export-serving = "recokt.serving.export:main"
 recokt-student-attack-score = "recokt.attacks.student:main"

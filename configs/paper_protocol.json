@@ -1,0 +1,79 @@
+{
+  "description": "Experimental protocol and ordered school rosters for the paper's 20-school setting. The rosters define the cyclic cooperation ring.",
+  "datasets": {
+    "assist2009": {
+      "name": "ASSIST2009 Non-Skill-Builder",
+      "knowledge_concepts": 498,
+      "ordered_schools": [
+        "2770", "73", "5056", "5177", "76", "5448", "1357", "1645", "5451", "5450",
+        "4158", "5255", "5307", "5454", "5256", "5049", "5171", "5078", "5048", "5460"
+      ],
+      "independent_withdrawals": ["2770", "73", "5056", "5177", "76"],
+      "sequential_withdrawals": ["2770", "73", "5056", "5177", "76", "5448"],
+      "response_order": ["order_id"]
+    },
+    "assist2012": {
+      "name": "ASSIST2012",
+      "knowledge_concepts": 242,
+      "ordered_schools": [
+        "2770", "4986", "5450", "6443", "73", "5444", "76", "5104", "5406", "5307",
+        "7778", "5056", "8534", "397", "5759", "7561", "8478", "5797", "6089", "7801"
+      ],
+      "independent_withdrawals": ["2770", "4986", "5450", "6443", "73"],
+      "sequential_withdrawals": ["2770", "4986", "5450", "6443", "73", "5444"],
+      "response_order": ["start_time", "problem_log_id"]
+    }
+  },
+  "backbones": ["dkt", "sakt", "keenkt"],
+  "seeds": [1, 2, 3, 4, 5],
+  "split": {
+    "unit": "student within each school",
+    "seed": 42,
+    "train_fraction": 0.8,
+    "validation_fraction": 0.1,
+    "test_fraction": 0.1,
+    "rounding": "Floor training and validation counts; assign the remaining students to test.",
+    "concept_catalog": "Construct from selected training students and keep fixed across withdrawals."
+  },
+  "training_windows": {
+    "max_events": 51,
+    "max_prediction_targets": 50,
+    "adjacent_context_overlap_events": 1
+  },
+  "reco_training": {
+    "component_structure": "one local component per school and one pairwise component per cyclic ring edge",
+    "backbone_rank": 16,
+    "backbone_rounds": 6,
+    "head_rounds": 6,
+    "local_epochs_per_round": 1,
+    "optimizer": "Adam",
+    "learning_rate": 0.008,
+    "batch_size": 32,
+    "gradient_norm_clip": 5.0,
+    "checkpoint": "final scheduled round",
+    "backbone_aggregation": "valid local training target counts",
+    "head_aggregation": "legal local head-training target counts",
+    "pairwise_weight": 0.3,
+    "local_weight": "1 - 0.3 * number of active pairwise components"
+  },
+  "global_baseline_training": {
+    "rounds": 20,
+    "local_epochs_per_round": 1,
+    "optimizer": "Adam",
+    "learning_rate": 0.002,
+    "batch_size": 32,
+    "gradient_norm_clip": 5.0,
+    "checkpoint": "final scheduled round"
+  },
+  "evaluation": {
+    "main_split": "test",
+    "remaining_schools_per_single_withdrawal": 19,
+    "main_cases": "two datasets, three backbones, five seeds and five independent withdrawals",
+    "sensitivity_and_robustness": "DKT validation students and seeds 1, 2 and 3",
+    "history": {
+      "dkt": "continuous causal history",
+      "sakt": "last-query history of at most 50 preceding responses",
+      "keenkt": "causal skill-only BCE model with at most 50 events including the current target"
+    }
+  }
+}
