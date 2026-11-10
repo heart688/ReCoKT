@@ -17,7 +17,7 @@ This repository contains the research implementation of ReCoKT, three compatible
 
 Each school trains a local component and cooperates with its two neighbors to train two pairwise components.
 
-Each component uses a rank-16 backbone adaptation and a correction head. Training uses six backbone rounds followed by six head rounds. Unless a sequential-withdrawal experiment is explicitly set up, each request starts from the same source bank.
+Each component uses a rank-16 backbone adaptation and a correction head. Training uses six backbone rounds followed by six head rounds.
 
 ## 🚀 Getting started
 
@@ -36,7 +36,7 @@ python tests/smoke.py
 python -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
-The smoke test creates temporary synthetic data, trains a pairwise component for each backbone using the 6+6 schedule, and checks loading, prediction, and withdrawal routing. The selective-state tests use mock streams.
+The smoke test uses synthetic data to check component training, loading, prediction, and withdrawal routing for each backbone.
 
 ## 🗂️ Prepare your data
 
@@ -148,12 +148,6 @@ with SelectiveManagedServingBundle('/path/to/new-serving-copy', factory) as serv
     probability = service.predict_session('session-1', 1)
 ```
 
-## 🧪 Reproduction status
-
-The paper's main protocol uses two datasets, 20 schools, three backbones, five seeds, and five fixed single-school withdrawals per dataset. The public interfaces have been checked with synthetic inputs; end-to-end equivalence on the original experiment checkpoints remains to be verified. Prepare datasets, trained models, and attack inputs separately.
-
 ## 📄 License
 
-The project's original code is provided under the [MIT License](LICENSE). The
-adapted [KeenKT](https://github.com/HubuKG/KeenKT) implementation is distributed
-under the [Apache-2.0 License](KEENKT_APACHE-2.0.txt).
+See the [MIT](LICENSE) and [Apache-2.0](KEENKT_APACHE-2.0.txt) license files.
