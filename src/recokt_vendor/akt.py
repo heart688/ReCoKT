@@ -2,8 +2,7 @@
 
 Derived from pykt-team/pykt-toolkit, commit
 ccbaf37b07e3e7ff7b2415475b2faacb967d54ea, pykt/models/akt.py.
-Only the official plain-qid branch is supported. See
-docs/BASELINE_AKT_PROVENANCE.md for the mapping and numerical parity checks.
+Only the official plain-qid branch is supported.
 
 MIT License
 Copyright (c) 2022 pykt-team

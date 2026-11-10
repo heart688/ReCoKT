@@ -1,4 +1,4 @@
-"""Minimal causal SAKT adaptation, not a full FAKT backbone or new method.
+"""Causal SAKT backbone.
 
 One attention block reads observed skill/response interactions. Each query is
 only the next skill: its response never enters that prediction. Learned absolute

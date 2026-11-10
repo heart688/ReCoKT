@@ -1,7 +1,4 @@
-"""Adapter and revisit-head primitives from the main experiment source.
-
-Source file SHA-256: 322f05f4044a92f75edc39a1698fa56a1cfd82f0cedbfb4d02a5ceff4259753a.
-"""
+"""Adapter and revisit-head primitives."""
 from copy import deepcopy
 import math
 RANK = 16

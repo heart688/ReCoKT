@@ -1,10 +1,7 @@
-"""Causalized skill-only KeenKT backbone, CPU, fixed-budget BCE pilot.
+"""Causal skill-only KeenKT backbone using binary cross-entropy.
 
-Based on the author's AAAI 2026 implementation (Apache-2.0).  Its temporal
-SE gate is changed to a prefix mean and the fully masked first attention row is
-zeroed to avoid future-answer leakage. Auxiliary diffusion and contrastive
-losses are disabled for the shared BCE recipe; this is therefore an explicitly
-modified backbone, not a reproduction of KeenKT.
+The temporal SE gate uses a prefix mean, and the fully masked first attention
+row is zeroed. Auxiliary diffusion and contrastive losses are disabled.
 """
 from dataclasses import dataclass,asdict
 import torch

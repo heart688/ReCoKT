@@ -1,6 +1,6 @@
 # Adapted from https://github.com/HubuKG/KeenKT (Apache-2.0).
 # Modified to remove an unused pandas import in the ReCoKT packaging.
-# See KEENKT_APACHE-2.0.txt and PROVENANCE.md at the repository root.
+# See KEENKT_APACHE-2.0.txt at the repository root.
 import torch
 from torch import nn
 from torch.nn import Module, Embedding, Linear, Dropout, MaxPool1d, Sequential, ReLU

@@ -1,6 +1,6 @@
 # Adapted from https://github.com/HubuKG/KeenKT (Apache-2.0).
 # Modified for package-relative imports and CPU use in the ReCoKT adaptation.
-# See KEENKT_APACHE-2.0.txt and PROVENANCE.md at the repository root.
+# See KEENKT_APACHE-2.0.txt at the repository root.
 import random
 import torch
 from torch import nn

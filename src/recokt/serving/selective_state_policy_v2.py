@@ -1,4 +1,4 @@
-"""Opt-in component-state retention; existing v1/v3 serving files stay unchanged.
+"""Selective component-state retention during withdrawal.
 
 The injected guard is an explicit contract: the stream uses only its component's
 immutable parameters and the student's permitted history, with no aggregate
@@ -6,8 +6,6 @@ prediction/state feedback. A shared frozen base is allowed. An unknown stream
 falls back to fresh replay. Artifact versions are checked against the manifest;
 in-place parameter mutation is outside this frozen-inference API contract.
 
-Import this module with the existing prototype directory on sys.path. It has no
-torch dependency. Direct/quantized model imports happen only in factory helpers.
 """
 from __future__ import annotations
 

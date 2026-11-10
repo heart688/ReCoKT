@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""Small N20 retained-route signal; one seed, one F, one retained school.
-
-Each school worker loads only its own train split. Aggregation messages contain
-model/head states and counts, not records or features. It is a multi-process
-single-server FL simulation; no actual cross-institution network or privacy
-guarantee is claimed. The FL CRC is a new optimization variant.
-"""
+"""Per-school component training in a multi-process federated simulation."""
 import argparse
 from copy import deepcopy
 import hashlib

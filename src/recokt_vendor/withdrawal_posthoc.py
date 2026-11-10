@@ -3,9 +3,7 @@
 This module includes an output-layer negation utility and FedEraser calibration.
 The paper's NoT baseline is implemented by ``baseline_training.recover``.
 FedEraser implements the paper's per-client Eq. (1),
-not the aggregate-then-per-tensor variant in the publicly mirrored code.
-Neither function trains, evaluates, reads records, or accesses checkpoints.
-See docs/BASELINE_POSTHOC_SOURCES.md for provenance and remaining adaptations.
+and the caller supplies training data and recovery steps.
 """
 
 from collections.abc import Mapping

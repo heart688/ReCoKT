@@ -1,4 +1,4 @@
-"""Portable scorer adapted from attack_expanded_score_v3.py; see attacks/README.md."""
+"""Student-membership attack scoring for LiRA and RULI."""
 import argparse,hashlib,json,math,random,statistics,sys,time
 from pathlib import Path
 from .design import balanced_masks

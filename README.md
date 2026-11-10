@@ -101,7 +101,7 @@ For lower-level use, run `recokt-component --help` or use `recokt.predict` to lo
 
 ## 🔐 Run a privacy audit
 
-The attack utilities are in [`recokt.attacks`](src/recokt/attacks/README.md):
+The attack utilities are in [`recokt.attacks`](src/recokt/attacks):
 
 - **School-model audit:** score Pre or Post against a matched Clean model using five-seed paired Gaussian scoring.
 - **Student-membership audit:** score the paper's DKT LiRA and RULI attacks using independently prepared reference, calibration, and evaluation systems.
@@ -112,6 +112,12 @@ For example, once the private student-audit inputs have been prepared:
 recokt-student-attack-score --dataset as09 --input-dir /private/audit \
   --output /private/audit-summary.json
 ```
+
+The scorer reads `plan_private.json` with the dataset, student cohorts, and
+membership assignments, along with `query_private.json` and `query_commit.json`
+for `systems/shadow00` through `systems/shadow87`. The systems comprise 64
+reference, eight calibration, and 16 evaluation models. Each query file contains
+Original, Post, and Clean scores for the selected students.
 
 ## 🔄 Serve predictions after withdrawal
 
@@ -144,8 +150,10 @@ with SelectiveManagedServingBundle('/path/to/new-serving-copy', factory) as serv
 
 ## 🧪 Reproduction status
 
-The paper's main protocol uses two datasets, 20 schools, three backbones, five seeds, and five fixed single-school withdrawals per dataset. See [source provenance](PROVENANCE.md) and the [release checklist](RELEASE_CHECKLIST.md) for implementation details and verification status.
+The paper's main protocol uses two datasets, 20 schools, three backbones, five seeds, and five fixed single-school withdrawals per dataset. The public interfaces have been checked with synthetic inputs; end-to-end equivalence on the original experiment checkpoints remains to be verified. Prepare datasets, trained models, and attack inputs separately.
 
 ## 📄 License
 
-The project's original code is provided under the [MIT License](LICENSE).
+The project's original code is provided under the [MIT License](LICENSE). The
+adapted [KeenKT](https://github.com/HubuKG/KeenKT) implementation is distributed
+under the [Apache-2.0 License](KEENKT_APACHE-2.0.txt).

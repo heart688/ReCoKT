@@ -1,8 +1,4 @@
-"""Portable component coordinator, adapted from the main-experiment worker.
-
-The schools run the original per-school training function in separate processes.
-Input specs must be frozen beforehand; this module does not select on test data.
-"""
+"""Coordinate component training across separate school processes."""
 import argparse
 import hashlib
 import json

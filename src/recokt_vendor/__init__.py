@@ -1,3 +1,3 @@
-"""Small federated KT experiments. No privacy or removal guarantee is implied."""
+"""Federated knowledge tracing components."""
 
 __version__ = "0.1.0"

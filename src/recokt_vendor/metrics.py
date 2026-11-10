@@ -1,8 +1,4 @@
-"""Descriptive binary prediction metrics and strictly paired comparisons.
-
-No significance tests, membership inference, or unlearning certification are
-performed here. Only the Python standard library is required.
-"""
+"""Binary prediction metrics and paired comparisons."""
 
 from __future__ import annotations
 
